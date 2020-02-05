@@ -6,12 +6,11 @@ namespace App\Repositories\Contracts;
 
 use App\User;
 
-interface UserRepositoryInterface
+interface ContactRepositoryInterface
 {
-    public function create(array $newUser);
+    public function create(array $new);
     public function all();
     public function findById(int $id);
-    public function findByEmail(string $email);
     public function save(User $user,array $params);
     public function delete(int $id);
 

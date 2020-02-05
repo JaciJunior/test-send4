@@ -32,16 +32,6 @@ class LoginJwtController extends Controller
     public function login(UsersRequest $request)
     {
         $return = $this->userService->login($request->all(['email', 'password']));
-        return response()->json($return['data'],$return['code']);
-    }
-
-    /**
-     * @param UsersRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function register(UsersRequest $request)
-    {
-        $return = $this->userService->create_user($request->all(['name', 'password', 'email']));
-        return response()->json($return['data'],$return['code']);
+        return response()->json($return['data'], $return['code']);
     }
 }

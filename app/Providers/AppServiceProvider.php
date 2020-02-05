@@ -22,6 +22,14 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\UserRepositoryInterface',
             'App\Repositories\UserRepository'
         );
+        $this->app->bind(
+            'App\Services\Contracts\ContactServiceInterface',
+            'App\Services\ContactService'
+        );
+        $this->app->bind(
+            'App\Repositories\Contracts\ContactRepositoryInterface',
+            'App\Repositories\ContactRepository'
+        );
     }
 
     /**
