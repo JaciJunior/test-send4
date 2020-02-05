@@ -19,7 +19,7 @@ Route::group(['middleware' => ['cors']], function () {
     Route::prefix('v1')->namespace('Api')->group(function () {
         //public routes
         Route::post('requestToken', 'Auth\\LoginJwtController@login')->name('requestToken');
-        Route::post('registerUser', 'Auth\\LoginJwtController@registrar')->name('registerUser');
+        Route::post('registerUser', 'Auth\\LoginJwtController@register')->name('registerUser');
 
         //middleware jwt
         Route::group(['middleware' => ['jwt.auth']], function () {

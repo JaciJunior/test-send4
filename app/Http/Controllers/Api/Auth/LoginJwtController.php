@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Requests\Request\UsersRequest;
+use App\Services\Contracts\UserServiceInterface;
 use App\User;
 use http\Env\Response;
 use Illuminate\Http\Request;
@@ -13,36 +14,34 @@ use mysql_xdevapi\Exception;
 
 class LoginJwtController extends Controller
 {
-    public function login(Request $request)
+    private $userService;
+
+    /**
+     * LoginJwtController constructor.
+     * @param UserServiceInterface $userService
+     */
+    public function __construct(UserServiceInterface $userService)
     {
-        $credentials = $request->all(['email', 'password']);
-        if (!$token = auth('api')->attempt($credentials)) {
-            return response()->json(['status' => 'ERROR', 'message' => 'Not Authorized'], 401);
-        }
-        return response()->json(
-            [
-                'status' => 'OK',
-                'token' => $token
-            ], 200);
+        $this->userService = $userService;
     }
 
-    public function registrar(UsersRequest $request)
+    /**
+     * @param UsersRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(UsersRequest $request)
     {
-        if (User::where('email', $request['email'])->first()) {
-            return response()->json([
-                'status' => 'ERROR',
-                'Message' => 'Registered User'], 200);
-        }
-        $credentials = $request->all(['name', 'password', 'email']);
+        $return = $this->userService->login($request->all(['email', 'password']));
+        return response()->json($return['data'],$return['code']);
+    }
 
-        if (User::create(['name' => $credentials['name'], 'email' => $credentials['email'], 'password' => Hash::make($credentials['password']),])) {
-            return response()->json([
-                'status' => 'OK',
-                'Message' => 'Registered Successfully'], 201);
-        }
-        return response()->json([
-            'status' => 'ERROR',
-            'Message' => 'Error Registering'
-        ], 200);
+    /**
+     * @param UsersRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(UsersRequest $request)
+    {
+        $return = $this->userService->create_user($request->all(['name', 'password', 'email']));
+        return response()->json($return['data'],$return['code']);
     }
 }

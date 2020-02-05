@@ -25,7 +25,6 @@ class UsersRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
             'password' => 'required|max:255',
             'email' => 'required|max:255',
         ];
@@ -33,10 +32,8 @@ class UsersRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Campo Name é obrigatório!',
-            'password.required' => 'Campo Name é obrigatório!',
-            'email.required' => 'Campo Name é obrigatório!',
-
+            'password.required' => 'Campo Password é obrigatório!',
+            'email.required' => 'Campo E-Mail é obrigatório!',
         ];
     }
 }
