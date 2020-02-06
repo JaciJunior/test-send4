@@ -26,7 +26,7 @@ class ContactService implements ContactServiceInterface
     {
         try {
 
-            if ($this->contactRepository->create([
+            if ($id = $this->contactRepository->create([
                 'name' => $params['name'],
                 'surname' => $params['surname'],
                 'telephone' => $params['telephone'],
@@ -37,7 +37,8 @@ class ContactService implements ContactServiceInterface
                         'status' => 'OK',
                         'Message' => 'Registered successfully'
                     ],
-                    'code' => 201
+                    'code' => 201,
+                    'id'=>$id
                 ];
             }
         } catch (\Exception $e) {

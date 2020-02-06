@@ -26,7 +26,7 @@ class MessageService implements MessageServiceInterface
     {
         try {
 
-            if ($this->messageRepository->create([
+            if ($id = $this->messageRepository->create([
                 'description' => $params['description'],
                 'contact_id' => $params['contact_id']
             ])) {
@@ -35,7 +35,8 @@ class MessageService implements MessageServiceInterface
                         'status' => 'OK',
                         'Message' => 'Registered successfully'
                     ],
-                    'code' => 201
+                    'code' => 201,
+                    'id'=>$id
                 ];
             }
         } catch (\Exception $e) {

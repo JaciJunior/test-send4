@@ -37,7 +37,7 @@ class ContactsController extends Controller
     public function store(ContactRequest $request)
     {
         $return = $this->contactService->create_contact($request->all());
-        return response()->json($return['data'], $return['code']);
+        return response()->json($return['data'], $return['code'],['id'=>$return['id']]);
     }
 
     /**

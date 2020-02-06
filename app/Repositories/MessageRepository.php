@@ -28,7 +28,7 @@ class MessageRepository implements MessageRepositoryInterface
      */
     public function create(array $new)
     {
-        return $this->message->create($new);
+        return $this->message->create($new)->id;
     }
 
     /**

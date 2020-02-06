@@ -39,7 +39,7 @@ class MessagesController extends Controller
     public function store(MessageRequest $request)
     {
         $return = $this->message->create_message($request->all());
-        return response()->json($return['data'],$return['code']);
+        return response()->json($return['data'],$return['code'],['id'=>$return['id']]);
     }
 
     /**

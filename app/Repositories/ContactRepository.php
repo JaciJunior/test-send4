@@ -26,7 +26,7 @@ class ContactRepository implements ContactRepositoryInterface
      */
     public function create(array $new)
     {
-        return $this->contact->create($new);
+        return $this->contact->create($new)->id;
     }
 
     /**

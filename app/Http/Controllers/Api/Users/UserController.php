@@ -43,7 +43,7 @@ class UserController extends Controller
     public function store(UsersRequest $request)
     {
         $return = $this->userService->create_user($request->all(['name', 'password', 'email']));
-        return response()->json($return['data'], $return['code']);
+        return response()->json($return['data'], $return['code'],['id'=>$return['id']]);
     }
 
     /**

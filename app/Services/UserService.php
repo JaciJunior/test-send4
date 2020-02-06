@@ -65,7 +65,7 @@ class UserService implements UserServiceInterface
                 ];
             }
 
-            if ($this->userRepository->create([
+            if ($id = $this->userRepository->create([
                 'name' => $params['name'],
                 'email' => $params['email'],
                 'password' => Hash::make($params['password']),
@@ -75,7 +75,8 @@ class UserService implements UserServiceInterface
                         'status' => 'OK',
                         'Message' => 'Registered successfully'
                     ],
-                    'code' => 201
+                    'code' => 201,
+                    'id'=>$id
                 ];
             }
         } catch (\Exception $e) {
