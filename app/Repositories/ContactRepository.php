@@ -3,48 +3,66 @@
 
 namespace App\Repositories;
 
-
 use App\Model\Contacts\ContactsModel;
 use App\Repositories\Contracts\ContactRepositoryInterface;
-use App\Repositories\Contracts\UserRepositoryInterface;
 use App\User;
-use Illuminate\Support\Facades\Hash;
 
 class ContactRepository implements ContactRepositoryInterface
 {
     private $contact;
 
     /**
-     * UserRepository constructor.
-     * @param User $model
+     * ContactRepository constructor.
+     * @param ContactsModel $model
      */
     public function __construct(ContactsModel $model)
     {
         $this->contact = $model;
     }
 
+    /**
+     * @param array $new
+     * @return mixed
+     */
     public function create(array $new)
     {
-        // TODO: Implement create() method.
+        return $this->contact->create($new);
     }
 
+    /**
+     * @return mixed
+     */
     public function all()
     {
         return $this->contact->paginate(100);
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function findById(int $id)
     {
-        // TODO: Implement findById() method.
+        return $this->contact::find($id);
     }
 
-    public function save(User $user, array $params)
+    /**
+     * @param ContactsModel $contact
+     * @param array $params
+     * @return bool
+     */
+    public function update(ContactsModel $contact, array $params)
     {
-        // TODO: Implement save() method.
+        return $contact->update($params);
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        $contact = $this->contact::find($id);
+        return $contact->delete();
     }
 }

@@ -30,6 +30,14 @@ class AppServiceProvider extends ServiceProvider
             'App\Repositories\Contracts\ContactRepositoryInterface',
             'App\Repositories\ContactRepository'
         );
+        $this->app->bind(
+            'App\Services\Contracts\MessageServiceInterface',
+            'App\Services\MessageService'
+        );
+        $this->app->bind(
+            'App\Repositories\Contracts\MessageRepositoryInterface',
+            'App\Repositories\MessageRepository'
+        );
     }
 
     /**

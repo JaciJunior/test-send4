@@ -1,12 +1,9 @@
 <?php
 
-
 namespace App\Repositories;
-
 
 use App\Repositories\Contracts\UserRepositoryInterface;
 use App\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
@@ -39,8 +36,10 @@ class UserRepository implements UserRepositoryInterface
         return $this->user->paginate(100);
     }
 
-    /*
-     *
+
+    /**
+     * @param int $id
+     * @return mixed
      */
     public function findById(int $id)
     {

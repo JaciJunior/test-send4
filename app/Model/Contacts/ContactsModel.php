@@ -2,6 +2,7 @@
 
 namespace App\Model\Contacts;
 
+use App\Model\Messages\MessagesModel;
 use Illuminate\Database\Eloquent\Model;
 
 class ContactsModel extends Model
@@ -18,12 +19,6 @@ class ContactsModel extends Model
 
     protected static $rules = [
         'default' => [
-            'name' => 'required|max:50',
-            'surname' => 'required|max:255',
-            'telephone' => 'required|max:20',
-            'email' => 'required|max:255',
-        ],
-        'update' => [
             'name' => 'required|max:50',
             'surname' => 'required|max:255',
             'telephone' => 'required|max:20',
@@ -68,9 +63,9 @@ class ContactsModel extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function messages()
     {
-        return $this->belongsTo(\Modules\User\Entities\User::class, 'user_id', 'id');
+        return $this->hasMany(MessagesModel::class, 'contact_id', 'id');
     }
 
 }

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Request;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-
-class UsersRequest extends FormRequest
+class ContactRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +24,9 @@ class UsersRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => 'required|max:255',
+            'name' => 'required|max:50',
+            'surname' => 'required|max:255',
+            'telephone' => 'required|max:20',
             'email' => 'required|max:255',
         ];
     }
@@ -33,7 +34,9 @@ class UsersRequest extends FormRequest
     public function messages()
     {
         return [
-            'password.required' => 'Campo Password é obrigatório!',
+            'name.required' => 'Campo Nome é obrigatório!',
+            'surname.required' => 'Campo Sobrenome é obrigatório!',
+            'telephone.required' => 'Campo Telefone é obrigatório!',
             'email.required' => 'Campo E-Mail é obrigatório!',
         ];
     }

@@ -2,73 +2,33 @@
 
 namespace App\Services;
 
-use App\Repositories\Contracts\UserRepositoryInterface;
-use App\Services\Contracts\UserServiceInterface;
-use Illuminate\Support\Facades\Hash;
+use App\Repositories\Contracts\MessageRepositoryInterface;
+use App\Services\Contracts\MessageServiceInterface;
 
-class UserService implements UserServiceInterface
+class MessageService implements MessageServiceInterface
 {
-    private $userRepository;
+    private $messageRepository;
 
     /**
-     * UserService constructor.
-     * @param UserRepositoryInterface $userRepository
+     * MessageService constructor.
+     * @param MessageRepositoryInterface $messageRepository
      */
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(MessageRepositoryInterface $messageRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->messageRepository = $messageRepository;
     }
 
     /**
-     * @param $credentials
+     * @param array $params
      * @return array
      */
-    public function login($credentials)
+    public function create_message(array $params)
     {
         try {
-            if (!$token = auth('api')->attempt($credentials)) {
-                return [
-                    'data' => ['error' => 'Username or password is invalid'],
-                    'code' => 401
-                ];
-            }
 
-            $user = $this->userRepository->findByEmail($credentials['email']);
-            return [
-                'data' => [
-                    'user' => $user['name'],
-                    'token' => $token
-                ],
-                'code' => 200
-            ];
-        } catch (\Exception $e) {
-            return [
-                'data' => [
-                    'error' => $e->getMessage(),
-                ],
-                'code' => 500
-            ];
-        }
-    }
-
-    /**
-     * @param $params
-     * @return array
-     */
-    public function create_user($params)
-    {
-        try {
-            if ($this->userRepository->findByEmail($params['email'])) {
-                return [
-                    'data' => ['error' => 'User is already registered'],
-                    'code' => 409
-                ];
-            }
-
-            if ($this->userRepository->create([
-                'name' => $params['name'],
-                'email' => $params['email'],
-                'password' => Hash::make($params['password']),
+            if ($this->messageRepository->create([
+                'description' => $params['description'],
+                'contact_id' => $params['contact_id']
             ])) {
                 return [
                     'data' => [
@@ -91,13 +51,13 @@ class UserService implements UserServiceInterface
     /**
      * @return array
      */
-    public function list_all_users()
+    public function list_all_message()
     {
         try {
             return [
                 'data' => [
                     'status' => 'OK',
-                    'users' => $this->userRepository->all()
+                    'users' => $this->messageRepository->all()
                 ],
                 'code' => 200
             ];
@@ -115,20 +75,52 @@ class UserService implements UserServiceInterface
      * @param int $id
      * @return array
      */
-    public function list_user_by_id(int $id)
+    public function list_message_by_id(int $id)
     {
         try {
-
-            if (!$user = $this->userRepository->findById($id)) {
+            if (!$message = $this->messageRepository->findById($id)) {
                 return [
-                    'data' => ['error' => 'User not found'],
+                    'data' => ['error' => 'Message not found'],
                     'code' => 404
                 ];
             }
+
             return [
                 'data' => [
                     'status' => 'OK',
-                    'users' => $user
+                    'users' => $message
+                ],
+                'code' => 200
+            ];
+        } catch (\Exception $e) {
+            return [
+                'data' => [
+                    'error' => $e->getMessage(),
+                ],
+                'code' => 500
+            ];
+        }
+
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function list_message_by_contact(int $id)
+    {
+        try {
+            if (!$message = $this->messageRepository->findByIdContact($id)) {
+                return [
+                    'data' => ['error' => 'Message not found'],
+                    'code' => 404
+                ];
+            }
+
+            return [
+                'data' => [
+                    'status' => 'OK',
+                    'users' => $message
                 ],
                 'code' => 200
             ];
@@ -147,19 +139,19 @@ class UserService implements UserServiceInterface
      * @param int $id
      * @return array
      */
-    public function update_user_by_id(array $params, int $id)
+    public function update_message_by_id(array $params, int $id)
     {
         try {
 
-            if (!$user = $this->userRepository->findById($id)) {
+            if (!$message = $this->messageRepository->findById($id)) {
                 return [
-                    'data' => ['error' => 'User not found'],
+                    'data' => ['error' => 'Message not found'],
                     'code' => 404
                 ];
             }
 
 
-            if ($this->userRepository->save($user, $params)) {
+            if ($this->messageRepository->update($message, $params)) {
                 return [
                     'data' => [
                         'status' => 'OK',
@@ -182,16 +174,16 @@ class UserService implements UserServiceInterface
      * @param int $id
      * @return array
      */
-    public function delete_user(int $id)
+    public function delete_message(int $id)
     {
         try {
-            if (!$this->userRepository->findById($id)) {
+            if (!$this->messageRepository->findById($id)) {
                 return [
-                    'data' => ['error' => 'User not found'],
+                    'data' => ['error' => 'Contact not found'],
                     'code' => 404
                 ];
             }
-            if ($this->userRepository->delete($id)) {
+            if ($this->messageRepository->delete($id)) {
                 return [
                     'data' => [
                         'status' => 'OK',
@@ -210,5 +202,4 @@ class UserService implements UserServiceInterface
             ];
         }
     }
-
 }

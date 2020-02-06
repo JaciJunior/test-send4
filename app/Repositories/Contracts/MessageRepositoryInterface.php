@@ -2,9 +2,9 @@
 
 namespace App\Repositories\Contracts;
 
-use App\Model\Contacts\ContactsModel;
+use App\Model\Messages\MessagesModel;
 
-interface ContactRepositoryInterface
+interface MessageRepositoryInterface
 {
     public function create(array $new);
 
@@ -12,7 +12,10 @@ interface ContactRepositoryInterface
 
     public function findById(int $id);
 
-    public function update(ContactsModel $user, array $params);
+    public function findByIdContact(int $id);
+
+    public function update(MessagesModel $user, array $params);
 
     public function delete(int $id);
+
 }
