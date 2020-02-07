@@ -11,9 +11,9 @@
 |
 */
 //
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+Route::get('/documentation', function () {
+    return File::get(public_path() . '/Documentacao/swagger-ui/dist/index.html');
+});
 //
 //Auth::routes();
 //

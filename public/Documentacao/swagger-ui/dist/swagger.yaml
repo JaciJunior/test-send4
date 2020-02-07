@@ -1,0 +1,585 @@
+---
+swagger: "2.0"
+info:
+  description: Documentacao API teste Send4
+  version: 1.0.0
+  title: Doc Teste send4
+  contact:
+    email: nunooo@hotmail.com.br
+host: apisend4.docker.local/
+basePath: /api/v1/
+tags:
+
+- name: Public Routes
+  description: Endpoints Publics
+- name: Users Routes
+  description: Endpoints Users
+- name: Contacts Routes
+  description: Endpoints Logs
+- name: Message Routes
+  description: Endpoints Logs
+schemes:
+- http
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+paths:
+  /requestToken:
+    post:
+      tags:
+      - Public Routes
+      summary:
+        Request an access token
+      description:
+        Request an access token
+      consumes:
+      - application/x-www-form-urlencoded
+      parameters:
+      - name: email
+        in: formData
+        description: your registered email.
+        required: true
+        type: string
+      - name: password
+        in: formData
+        description: your registered password.
+        required: true
+        type: string
+      responses:
+        200:
+          description: OK
+        401:
+          description: Username or password is invalid.
+        500:
+          description: Server error.
+  /registerUser:
+    post:
+      tags:
+        - Public Routes
+      summary:
+        Request to create a user
+      description:
+        Request to create a user
+      consumes:
+        - application/x-www-form-urlencoded
+        - application/json
+      parameters:
+        - name: name
+          in: formData
+          description: your name.
+          required: true
+          type: string
+        - name: email
+          in: formData
+          description: your e-mail.
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: your name.
+          required: true
+          type: string
+      responses:
+        409:
+          description: User is already registered
+        201:
+          description: Registered Successfully.
+        500:
+          description: Server error.
+#          USERS ROUTES
+  /users/list:
+    get:
+      tags:
+        - Users Routes
+      summary:
+        Request list all user
+      description:
+        Request will list all users.
+        100 will be listed per page
+      security:
+        - Bearer: []
+      consumes:
+        - application/json
+        - Authorization
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          required: false
+      responses:
+          200:
+            description: OK
+          500:
+            description: Server error.
+  /users/list/{id}:
+    get:
+      tags:
+        - Users Routes
+      summary:
+        Request a user list by id
+      description:
+        Request a user list by id
+      security:
+        - Bearer: []
+      consumes:
+        - application/json
+        - Authorization
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          required: false
+        - name: id
+          in: path
+          type: integer
+          required: true
+      responses:
+          200:
+            description: OK
+          404:
+            description: User not found
+          500:
+            description: Server error.
+  /users/delete/{id}:
+    delete:
+      tags:
+        - Users Routes
+      summary:
+        Delete a user list by id
+      description:
+        Delete a user list by id
+      security:
+        - Bearer: []
+      consumes:
+        - application/json
+        - Authorization
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          required: false
+        - name: id
+          in: path
+          type: integer
+          required: true
+      responses:
+          201:
+            description: deleted successfully
+          404:
+            description: User not found
+          500:
+            description: Server error.
+  /users/update/{id}:
+    put:
+      tags:
+        - Users Routes
+      summary:
+        Request to create a user
+      description:
+        Request to create a user
+      security:
+        - Bearer: []
+      consumes:
+        - application/x-www-form-urlencoded
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+        - name: authorization
+          in: header
+          type: string
+          required: false
+        - name: name
+          in: formData
+          description: your name.
+          required: true
+          type: string
+        - name: email
+          in: formData
+          description: your e-mail.
+          required: true
+          type: string
+        - name: password
+          in: formData
+          description: your password.
+          required: true
+          type: string
+      responses:
+          201:
+              description: Updated successfully
+          404:
+              description: User not found
+          500:
+              description: Server error.
+#         END USERS ROUTES
+
+#  END CONTACTS ROUTES
+  /contacts/list:
+    get:
+      tags:
+        - Contacts Routes
+      summary:
+        Request list all Contacts
+      description:
+        Request will list all Contacts.
+        100 will be listed per page
+      security:
+        - Bearer: []
+      consumes:
+        - application/json
+        - Authorization
+      parameters:
+        - name: authorization
+          in: header
+          type: string
+          required: false
+      responses:
+          200:
+              description: OK
+          500:
+              description: Server error.
+  /contacts/list/{id}:
+      get:
+          tags:
+              - Contacts Routes
+          summary:
+              Request a Contacts list by id
+          description:
+              Request a Contacts list by id
+          security:
+              -   Bearer: []
+          consumes:
+              - application/json
+              - Authorization
+          parameters:
+              -   name: authorization
+                  in: header
+                  type: string
+                  required: false
+              -   name: id
+                  in: path
+                  type: integer
+                  required: true
+          responses:
+              200:
+                  description: OK
+              404:
+                  description: Contact not found.
+              500:
+                  description: Server error.
+
+  /contacts/add:
+      post:
+          tags:
+              - Contacts Routes
+          summary:
+              Request to create a Contacts
+          description:
+              Request to create a Contacts
+          security:
+              -   Bearer: []
+          consumes:
+              - application/x-www-form-urlencoded
+              - application/json
+              - Authorization
+          parameters:
+              -   name: name
+                  in: formData
+                  description: Name Contact.
+                  required: true
+                  type: string
+              -   name: surname
+                  in: formData
+                  description: Surname Contact.
+                  required: true
+                  type: string
+              -   name: telephone
+                  in: formData
+                  description: Telephone Contact.
+                  required: true
+                  type: string
+              -   name: email
+                  in: formData
+                  description: Email Contact.
+                  required: true
+                  type: string
+          responses:
+              201:
+                  description: OK
+              500:
+                  description: Server error.
+
+  /contacts/update/{id}:
+      put:
+          tags:
+              - Contacts Routes
+          summary:
+              Request to create a Contacts
+          description:
+              Request to create a Contacts
+          security:
+              -   Bearer: []
+          consumes:
+              - application/x-www-form-urlencoded
+              - application/json
+              - Authorization
+          parameters:
+              -   name: id
+                  in: path
+                  type: integer
+                  required: true
+              -   name: name
+                  in: formData
+                  description: Name Contact.
+                  required: true
+                  type: string
+              -   name: surname
+                  in: formData
+                  description: Surname Contact.
+                  required: true
+                  type: string
+              -   name: telephone
+                  in: formData
+                  description: Telephone Contact.
+                  required: true
+                  type: string
+              -   name: email
+                  in: formData
+                  description: Email Contact.
+                  required: true
+                  type: string
+          responses:
+              201:
+                  description: OK
+              404:
+                  description: Contact not found
+              500:
+                  description: Server error.
+
+  /contacts/delete/{id}:
+      delete:
+          tags:
+              - Contacts Routes
+          summary:
+              Request to delete log
+          description:
+              Request to delete log
+          security:
+              -   Bearer: []
+          consumes:
+              - application/json
+              - Authorization
+          parameters:
+              -   name: authorization
+                  in: header
+                  type: string
+                  required: false
+              -   name: id
+                  in: path
+                  type: integer
+                  required: true
+          responses:
+              201:
+                  description: OK
+              404:
+                  description: Contact not found
+              500:
+                  description: Server error.
+
+#    CONTACTS LOGS ROUTES
+
+
+# MESSAGE ROUTES
+  /messages/list:
+      get:
+          tags:
+              - Message Routes
+          summary:
+              Request list all Message
+          description:
+              Request will list all Message.
+              100 will be listed per page
+          security:
+              -   Bearer: []
+          consumes:
+              - application/json
+              - Authorization
+          parameters:
+              -   name: authorization
+                  in: header
+                  type: string
+                  required: false
+          responses:
+              200:
+                  description: OK
+              500:
+                  description: Server error.
+  /messages/list/{id}:
+      get:
+          tags:
+              - Message Routes
+          summary:
+              Request a Message list by id
+          description:
+              Request a Message list by id
+          security:
+              -   Bearer: []
+          consumes:
+              - application/json
+              - Authorization
+          parameters:
+              -   name: authorization
+                  in: header
+                  type: string
+                  required: false
+              -   name: id
+                  in: path
+                  type: integer
+                  required: true
+          responses:
+              200:
+                  description: OK
+              404:
+                  description: Message not found.
+              500:
+                  description: Server error.
+
+  /messages/add:
+      post:
+          tags:
+              - Message Routes
+          summary:
+              Request to create a Message
+          description:
+              Request to create a Message
+          security:
+              -   Bearer: []
+          consumes:
+              - application/x-www-form-urlencoded
+              - application/json
+              - Authorization
+          parameters:
+              -   name: description
+                  in: formData
+                  description: Description message.
+                  required: true
+                  type: string
+              -   name: contact_id
+                  in: formData
+                  description: Id Contact.
+                  required: true
+                  type: string
+          responses:
+              201:
+                  description: OK
+              500:
+                  description: Server error.
+
+  /messages/update/{id}:
+      put:
+          tags:
+              - Message Routes
+          summary:
+              Request to update a Message
+          description:
+              Request to update a Message
+          security:
+              -   Bearer: []
+          consumes:
+              - application/x-www-form-urlencoded
+              - application/json
+              - Authorization
+          parameters:
+              -   name: id
+                  in: path
+                  type: integer
+                  required: true
+              -   name: description
+                  in: formData
+                  description: Description message.
+                  required: true
+                  type: string
+              -   name: contact_id
+                  in: formData
+                  description: Id Contact.
+                  required: true
+                  type: string
+          responses:
+              201:
+                  description: OK
+              404:
+                  description: Message not found
+              500:
+                  description: Server error.
+
+
+  /messages/delete/{id}:
+      delete:
+          tags:
+              - Message Routes
+          summary:
+              Request to delete Message
+          description:
+              Request to delete Message
+          security:
+              -   Bearer: []
+          consumes:
+              - application/json
+              - Authorization
+          parameters:
+              -   name: authorization
+                  in: header
+                  type: string
+                  required: false
+              -   name: id
+                  in: path
+                  type: integer
+                  required: true
+          responses:
+              201:
+                  description: OK
+              404:
+                  description: Contact not found
+              500:
+                  description: Server error.
+  /messages/list/contact/{id}:
+      get:
+          tags:
+              - Message Routes
+          summary:
+              Request to All  Message by Contact ID
+          description:
+              Request to All  Message by Contact ID
+          security:
+              -   Bearer: []
+          consumes:
+              - application/json
+              - Authorization
+          parameters:
+              -   name: authorization
+                  in: header
+                  type: string
+                  required: false
+              -   name: id
+                  in: path
+                  type: integer
+                  required: true
+          responses:
+              200:
+                  description: OK
+              404:
+                  description: Contact not found
+              500:
+                  description: Server error.
+
+# END MESSAGE  LOG ROUTES
+
+
+
+
+
+#definitions: {}
