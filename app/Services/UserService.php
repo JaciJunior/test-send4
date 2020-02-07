@@ -61,7 +61,8 @@ class UserService implements UserServiceInterface
             if ($this->userRepository->findByEmail($params['email'])) {
                 return [
                     'data' => ['error' => 'User is already registered'],
-                    'code' => 409
+                    'code' => 409,
+                    'id' => 0
                 ];
             }
 
