@@ -52,6 +52,13 @@ docker-compose down
 
 ```
 
+### Rodar Migration
+```sh
+cd /var/www/test-send4
+php artisan migrate
+
+```
+
 ##  Acesso a Documentação 
 
 + Documentação Swagger <br>
